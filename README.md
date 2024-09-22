@@ -3,9 +3,10 @@
 
 Fully customizable Pomodoro timer to help you focus on your task!
 
-![Screenshot](image.png)
+![Pomodoro](image.png)
 
 You can edit the timer to your liking!
+
 ![Edit timer](image-1.png) 
 
 # Guide on ReactJs
