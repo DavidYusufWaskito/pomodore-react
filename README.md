@@ -1,3 +1,11 @@
+### Pomodore Timer
+## (I know it's Pomodoro guys shut up, it's a typo but i think it's still cool. So i don't want to change it)
+
+Fully customizable Pomodoro timer to help you focus on your task!
+
+![Screenshot](image.png)
+
+### Guide on ReactJs
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
