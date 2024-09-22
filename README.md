@@ -3,6 +3,7 @@
 
 Fully customizable Pomodoro timer to help you focus on your task!
 
+![alt text](image-2.png)
 
 You can edit the timer to your liking!
 
