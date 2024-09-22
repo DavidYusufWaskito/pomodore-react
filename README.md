@@ -1,5 +1,5 @@
-### Pomodore Timer
-## (I know it's Pomodoro guys shut up, it's a typo but i think it's still cool. So i don't want to change it)
+# Pomodore Timer
+### (I know it's Pomodoro guys shut up, it's a typo but i think it's still cool. So i don't want to change it)
 
 Fully customizable Pomodoro timer to help you focus on your task!
 
