@@ -1,11 +1,12 @@
 
 import { useTimer } from "react-timer-hook";
-import { useDeferredValue, useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useState,useRef } from "react";
 import BuzzerSound from "./sound/buzzer.mp3";
 import Tomato from "./img/tomato.png";
 import TimerSetting from "./layouts/TimerSetting";
 import { Snackbar,Alert } from "@mui/material";
 function App() {
+  const isFirstRender = useRef(true);
   // Time are in minutes
   const [focusTime, setFocusTime] = useState({
     hours: 0,
@@ -39,6 +40,40 @@ function App() {
     time.setSeconds(time.getSeconds() + timeInSeconds);
     return time;
   }
+
+  useEffect(() => {
+    console.log("Loading data from local storage");
+    const storedPomodoros = localStorage.getItem("pomodoro-count");
+    const storedTime = localStorage.getItem("time");
+    const storedMode = localStorage.getItem("mode");
+    if (storedPomodoros) {
+      console.log(`Stored Pomodoros: ${storedPomodoros}`);
+      setPomodoros(parseInt(storedPomodoros));
+    }
+    if (storedMode) {
+      console.log(`Stored mode: ${storedMode}`);
+      setMode(storedMode);
+    }
+
+    if (storedTime) {
+      console.log(`Stored time: ${storedTime}`);
+      const time = new Date();
+      time.setSeconds(time.getSeconds() + parseInt(storedTime));
+      restart(time,false);
+    }
+    
+    const storedFocusTime = JSON.parse(localStorage.getItem("focus-time"));
+    const storedBreakTime = JSON.parse(localStorage.getItem("break-time"));
+    const storedLongBreakTime = JSON.parse(localStorage.getItem("long-break-time"));
+    if (storedPomodoros) setPomodoros(parseInt(storedPomodoros));
+    if (storedFocusTime) setFocusTime(storedFocusTime);
+    if (storedBreakTime) setBreakTime(storedBreakTime);
+    if (storedLongBreakTime) setLongBreakTime(storedLongBreakTime);
+    console.log(`Stored focus time: ${storedFocusTime?.hours} hours ${storedFocusTime?.minutes} minutes ${storedFocusTime?.seconds} seconds`);
+    console.log(`Stored break time: ${storedBreakTime?.hours} hours ${storedBreakTime?.minutes} minutes ${storedBreakTime?.seconds} seconds`);
+    console.log(`Stored long break time: ${storedLongBreakTime?.hours} hours ${storedLongBreakTime?.minutes} minutes ${storedLongBreakTime?.seconds} seconds`);
+    
+  }, []);
 
   const HandleTimeout = () => {
     if (modes === "focus") {
@@ -82,6 +117,7 @@ function App() {
     console.log(time.getMinutes());
     console.log(totalSeconds);
   }, []);
+
   useEffect(() => {
     if (Pomodoros !== 0 && Pomodoros % LongBreakInterval === 0 && modes !== "longbreak") {
       setMode("longbreak");
@@ -89,6 +125,18 @@ function App() {
       return;
     }
   }, [Pomodoros]);
+
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    localStorage.setItem("pomodoro-count", Pomodoros);
+    localStorage.setItem("time", totalSeconds);
+    localStorage.setItem("mode", modes);
+    console.log("LS total sec: ", localStorage.getItem("time"));
+  },[seconds]);
 
   useEffect(() => {
     console.log(SnackbarOpen);
@@ -119,7 +167,7 @@ function App() {
         </svg>
       </button>
       
-      <TimerSetting open={isSettingOpen} onClose={() => setIsSettingOpen(false)} saveFocusTime={setFocusTime} saveBreakTime={setBreakTime} saveLongBreakTime={setLongBreakTime} restartTimer={restart} snackbarCallback={setSnackbarOpen}/>
+      <TimerSetting open={isSettingOpen} onClose={() => setIsSettingOpen(false)} saveFocusTime={setFocusTime} saveBreakTime={setBreakTime} saveLongBreakTime={setLongBreakTime} snackbarCallback={setSnackbarOpen}/>
       <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={SnackbarOpen.open} autoHideDuration={3000} onClose={() => setSnackbarOpen({...SnackbarOpen, open: false})}>
         <Alert onClose={() => setSnackbarOpen({...SnackbarOpen, open: false})} severity={SnackbarOpen.type} sx={{ width: '100%' }}>
           {SnackbarOpen.message}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal,Box } from "@mui/material";
 export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,saveLongBreakTime,restartTimer,snackbarCallback})
 {
@@ -18,6 +18,15 @@ export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,s
         minutes: 15,
         seconds: 0
     });
+
+    useEffect(() => {
+        const storedFocusTime = JSON.parse(localStorage.getItem("focus-time"));
+        const storedBreakTime = JSON.parse(localStorage.getItem("break-time"));
+        const storedLongBreakTime = JSON.parse(localStorage.getItem("long-break-time"));
+        if (storedFocusTime) setFocusTime(storedFocusTime);
+        if (storedBreakTime) setBreakTime(storedBreakTime);
+        if (storedLongBreakTime) setLongBreakTime(storedLongBreakTime);
+    },[]);
 
     const HandleInputHours = (e,state,setState) => {
         const numOnly = /^[0-9]+$/;
@@ -66,8 +75,11 @@ export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,s
         saveFocusTime(focusTime);
         saveBreakTime(breakTime);
         saveLongBreakTime(longBreakTime);
-        restartTimer(convertTimetoTimeStamp(focusTime),false);
+        // restartTimer(convertTimetoTimeStamp(focusTime),false);
         snackbarCallback({open:true,message:"Timer Saved",type:"success"});
+        localStorage.setItem("focus-time", JSON.stringify(focusTime));
+        localStorage.setItem("break-time", JSON.stringify(breakTime));
+        localStorage.setItem("long-break-time", JSON.stringify(longBreakTime));
         onClose();
     }
 
