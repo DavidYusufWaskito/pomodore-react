@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal,Box } from "@mui/material";
-export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,saveLongBreakTime,restartTimer})
+export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,saveLongBreakTime,restartTimer,snackbarCallback})
 {
     // Time are in minutes
     const [focusTime, setFocusTime] = useState({
@@ -67,6 +67,7 @@ export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,s
         saveBreakTime(breakTime);
         saveLongBreakTime(longBreakTime);
         restartTimer(convertTimetoTimeStamp(focusTime),false);
+        snackbarCallback({open:true,message:"Timer Saved",type:"success"});
         onClose();
     }
 
