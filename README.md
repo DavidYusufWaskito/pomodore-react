@@ -5,7 +5,10 @@ Fully customizable Pomodoro timer to help you focus on your task!
 
 ![Screenshot](image.png)
 
-### Guide on ReactJs
+You can edit the timer to your liking!
+![Edit timer](image-1.png) 
+
+# Guide on ReactJs
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
