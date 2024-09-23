@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { Modal,Box } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+
 export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,saveLongBreakTime,restartTimer,snackbarCallback})
 {
     // Time are in minutes
@@ -95,65 +98,153 @@ export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,s
         onClose();
     }
 
+    const resetFocustime = () => {
+        setFocusTime({
+            hours: 0,
+            minutes: 25,
+            seconds: 0
+        });
+    }
+
+    const resetBreaktime = () => {
+        setBreakTime({
+            hours: 0,
+            minutes: 5,
+            seconds: 0
+        });
+    }
+
+    const resetLongBreaktime = () => {
+        setLongBreakTime({
+            hours: 0,
+            minutes: 15,
+            seconds: 0
+        });
+    }
+
+    const resetAll = () => {
+        setFocusTime({
+            hours: 0,
+            minutes: 25,
+            seconds: 0
+        });
+        setBreakTime({
+            hours: 0,
+            minutes: 5,
+            seconds: 0
+        });
+        setLongBreakTime({
+            hours: 0,
+            minutes: 15,
+            seconds: 0
+        });
+    }   
+
     return(
         <Modal open={open} onClose={onClose}>
-            <div className="absolute w-full md:w-1/4 h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-5">
+            <div className="absolute min-w-[600px] w-full h-full md:w-1/4 md:h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white md:rounded-lg p-5">
                 {/* Header */}
                 <div>
                     <h1 className="text-gray-700 text-2xl font-bold text-center">Pomodoro Timer Setting</h1>
                 </div>
 
                 {/* Body */}
-                <div className="mt-10">
+                <div className="px-10 mt-10">
                     <h1 className="text-gray-700 text-xl font-bold text-center">Focus Time</h1>
-                    <div className="w-full h-full flex mt-5">
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputHours(e,focusTime,setFocusTime)} value={focusTime.hours.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                    <div className="w-full h-full flex items-center gap-5 mt-5">
+                        <div className="w-full flex justify-between items-center">
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputHours(e,focusTime,setFocusTime)} value={focusTime.hours.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
+                            <span className="text-3xl text-gray-800">:</span>
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputMinutes(e,focusTime,setFocusTime)} value={focusTime.minutes.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
+                            <span className="text-3xl text-gray-800">:</span>
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputSeconds(e,focusTime,setFocusTime)} value={focusTime.seconds.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
                         </div>
-                        <span className="text-3xl text-gray-800">:</span>
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputMinutes(e,focusTime,setFocusTime)} value={focusTime.minutes.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
-                        </div>
-                        <span className="text-3xl text-gray-800">:</span>
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputSeconds(e,focusTime,setFocusTime)} value={focusTime.seconds.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
-                        </div>
+                        <button onClick={resetFocustime} className="bg-gray-800 py-2 px-4 rounded-lg shadow-lg hover:bg-gray-700">
+                            <FontAwesomeIcon icon={faRotateLeft} className="text-3xl text-white" />
+                        </button>
                     </div>
 
                     <h1 className="text-gray-700 text-xl font-bold text-center mt-10">Break Time</h1>
-                    <div className="w-full h-full flex justify-center items-center mt-5">
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputHours(e,breakTime,setBreakTime)} value={breakTime.hours.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                    <div className="w-full h-full flex items-center gap-5 mt-5">
+                        <div className="w-full flex justify-between items-center">
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputHours(e,breakTime,setBreakTime)} value={breakTime.hours.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
+                            <span className="text-3xl text-gray-800">:</span>
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputMinutes(e,breakTime,setBreakTime)} value={breakTime.minutes.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
+                            <span className="text-3xl text-gray-800">:</span>
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputSeconds(e,breakTime,setBreakTime)} value={breakTime.seconds.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
                         </div>
-                        <span className="text-3xl text-gray-800">:</span>
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputMinutes(e,breakTime,setBreakTime)} value={breakTime.minutes.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
-                        </div>
-                        <span className="text-3xl text-gray-800">:</span>
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputSeconds(e,breakTime,setBreakTime)} value={breakTime.seconds.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
-                        </div>
+                        <button onClick={resetBreaktime} className="bg-gray-800 py-2 px-4 rounded-lg shadow-lg hover:bg-gray-700">
+                            <FontAwesomeIcon icon={faRotateLeft} className="text-3xl text-white" />
+                        </button>
                     </div>
+                    {/* <div className="w-full h-full flex justify-between items-center mt-5">
+                        <div className="w-1/4">
+                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputHours(e,breakTime,setBreakTime)} value={breakTime.hours.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                        </div>
+                        <span className="text-3xl text-gray-800">:</span>
+                        <div className="w-1/4">
+                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputMinutes(e,breakTime,setBreakTime)} value={breakTime.minutes.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                        </div>
+                        <span className="text-3xl text-gray-800">:</span>
+                        <div className="w-1/4">
+                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputSeconds(e,breakTime,setBreakTime)} value={breakTime.seconds.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                        </div>
+                    </div> */}
 
                     <h1 className="text-gray-700 text-xl font-bold text-center mt-10">Long Break Time</h1>
-                    <div className="w-full h-full flex mt-5">
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputHours(e,longBreakTime,setLongBreakTime)} value={longBreakTime.hours.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                    <div className="w-full h-full flex items-center gap-5 mt-5">
+                        <div className="w-full flex justify-between items-center">
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputHours(e,longBreakTime,setLongBreakTime)} value={longBreakTime.hours.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
+                            <span className="text-3xl text-gray-800">:</span>
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputMinutes(e,longBreakTime,setLongBreakTime)} value={longBreakTime.minutes.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
+                            <span className="text-3xl text-gray-800">:</span>
+                            <div className="w-1/4">
+                                <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputSeconds(e,longBreakTime,setLongBreakTime)} value={longBreakTime.seconds.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                            </div>
                         </div>
-                        <span className="text-3xl text-gray-800">:</span>
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputMinutes(e,longBreakTime,setLongBreakTime)} value={longBreakTime.minutes.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
-                        </div>
-                        <span className="text-3xl text-gray-800">:</span>
-                        <div className="w-1/3 text-center">
-                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputSeconds(e,longBreakTime,setLongBreakTime)} value={longBreakTime.seconds.toString().padStart(2, "0")} className="w-1/2 h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
-                        </div>
+                        <button onClick={resetLongBreaktime} className="bg-gray-800 py-2 px-4 rounded-lg shadow-lg hover:bg-gray-700">
+                            <FontAwesomeIcon icon={faRotateLeft} className="text-3xl text-white" />
+                        </button>
                     </div>
+                    {/* <div className="w-full h-full flex justify-between items-center mt-5">
+                        <div className="w-1/4">
+                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputHours(e,longBreakTime,setLongBreakTime)} value={longBreakTime.hours.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                        </div>
+                        <span className="text-3xl text-gray-800">:</span>
+                        <div className="w-1/4">
+                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputMinutes(e,longBreakTime,setLongBreakTime)} value={longBreakTime.minutes.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                        </div>
+                        <span className="text-3xl text-gray-800">:</span>
+                        <div className="w-1/4">
+                            <input type="number" onClick={HandleInputFocusOnClick} onKeyDown={HandleInputKeydown} onChange={(e)=>HandleInputSeconds(e,longBreakTime,setLongBreakTime)} value={longBreakTime.seconds.toString().padStart(2, "0")} className="w-full h-full border-2 border-gray-500 rounded text-center text-3xl font-bold text-gray-800 caret-transparent" placeholder="00" />
+                        </div>
+                    </div> */}
                 </div>
                 {/* Footer */}
-                <div className="flex gap-5 mt-10">
-                    <button onClick={save} className="w-full bg-gray-800 text-white py-2 rounded-lg">Save</button>
-                    <button onClick={()=>onClose()} className="w-full bg-gray-800 text-white py-2 rounded-lg">Close</button>
+                <div className="mt-10">
+                    <button onClick={resetAll} className="w-full bg-gray-800 text-white py-2 rounded-lg">
+                        Reset all to default
+                    </button>
+                    <div className="flex gap-5 mt-5">
+                        <button onClick={save} className="w-full bg-gray-800 text-white py-2 rounded-lg">Save</button>
+                        <button onClick={()=>onClose()} className="w-full bg-gray-800 text-white py-2 rounded-lg">Close</button>
+                    </div>
                 </div>
             </div>
         </Modal>
