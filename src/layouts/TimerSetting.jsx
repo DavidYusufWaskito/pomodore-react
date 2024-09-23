@@ -142,7 +142,7 @@ export default function TimerSetting({open,onClose,saveFocusTime,saveBreakTime,s
 
     return(
         <Modal open={open} onClose={onClose}>
-            <div className="absolute min-w-[600px] w-full h-full md:w-1/4 md:h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white md:rounded-lg p-5">
+            <div className="absolute min-w-[480px] w-full h-full md:w-1/4 md:h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white md:rounded-lg p-5">
                 {/* Header */}
                 <div>
                     <h1 className="text-gray-700 text-2xl font-bold text-center">Pomodoro Timer Setting</h1>
